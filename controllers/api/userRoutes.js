@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const { User, Post, Comment } = require("../../models");
+const db = require("../../models");
 
 // get all users
 router.get("/", async (req, res) => {
   try {
-    const users = await User.findAll({
+    const users = await db.User.findAll({
       attributes: { exclude: [`createdAt`, `updatedAt`] },
     });
     res.status(200).json(users);
@@ -19,11 +19,17 @@ router.get("/", async (req, res) => {
 // get single user with posts and comments
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findOne({
+    const user = await db.User.findOne({
       where: { id: req.params.id },
       include: [
-        { model: Post, attributes: { excludes: [`createdAt`, `updatedAt`] } },
-        { model: Comment, attributes: { exclude: [`createdAt`, `updatedAt`] } },
+        {
+          model: db.Post,
+          attributes: { excludes: [`createdAt`, `updatedAt`] },
+        },
+        {
+          model: db.Comment,
+          attributes: { exclude: [`createdAt`, `updatedAt`] },
+        },
       ],
       attributes: { exclude: [`createdAt`, `updatedAt`] },
     });
@@ -37,7 +43,7 @@ router.get("/:id", async (req, res) => {
 // new user
 router.post("/", async (req, res) => {
   try {
-    const newUser = await User.create(req.body);
+    const newUser = await db.User.create(req.body);
     res.status(200).json(newUser);
   } catch (err) {
     console.log(err);
@@ -47,8 +53,9 @@ router.post("/", async (req, res) => {
 
 // login
 router.post("/login", (req, res) => {
-  User.findOne({
+  db.User.findOne({
     where: {
+      username: req.body.username,
       email: req.body.email,
     },
   }).then((user) => {
@@ -92,7 +99,7 @@ router.post("/logout", (req, res) => {
 // delete user
 router.delete("/:id", (req, res) => {
   if (req.body.email === req.session.user.email) {
-    User.destroy({
+    db.User.destroy({
       where: {
         id: req.params.id,
       },
