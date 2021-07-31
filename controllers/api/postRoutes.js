@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../models");
+const auth = require("../../utils/auth");
 
-// get all comments
+// get all posts
 router.get("/", async (req, res) => {
   try {
     const posts = await db.Post.findAll({
@@ -15,12 +16,15 @@ router.get("/", async (req, res) => {
   }
 });
 
-// get comment by id
+// get post by id
 router.get("/:id", async (req, res) => {
   try {
     const post = await db.Post.findOne({
       where: { id: req.params.id },
-      include: {model: db.Comment, attributes: { exclude: [`createdAt`, `updatedAt`] },},
+      include: {
+        model: db.Comment,
+        attributes: { exclude: [`createdAt`, `updatedAt`] },
+      },
       attributes: { exclude: [`createdAt`, `updatedAt`] },
     });
     res.status(200).json(post);
@@ -30,7 +34,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// post comment
+// post post
 router.post("/", async (req, res) => {
   try {
     const newComment = await db.Post.create(req.body);
@@ -41,25 +45,19 @@ router.post("/", async (req, res) => {
   }
 });
 
-// delete comment
-router.delete("/:id", (req, res) => {
-  if (db.Post.user_id === req.session.user.id) {
-    db.Post.destroy({
+// delete post
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const delPost = db.Post.destroy({
       where: {
         id: req.params.id,
       },
-    })
-      .then((user) => {
-        res.json({ message: "Post deleted" });
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  } else {
-    res.status(403).json({
-      message: "You can't delete this!",
     });
+
+    res.json({ message: "Post deleted" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
   }
 });
 

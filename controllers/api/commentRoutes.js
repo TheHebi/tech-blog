@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../models");
+const auth = require("../../utils/auth");
 
 // get all comments
 router.get("/", async (req, res) => {
@@ -41,25 +42,19 @@ router.post("/", async (req, res) => {
 });
 
 // delete comment
-router.delete("/:id", (req, res) => {
-    if (db.Comment.user_id === req.session.user.id) {
-      db.Comment.destroy({
-        where: {
-          id: req.params.id,
-        },
-      })
-        .then((user) => {
-          res.json({ message: "Comment deleted" });
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).json(err);
-        });
-    } else {
-      res.status(403).json({
-        message: "You can't delete this!",
-      });
-    }
-  });
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const delComment = db.Comment.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    res.json({ message: "Comment deleted" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
 
 module.exports = router;
