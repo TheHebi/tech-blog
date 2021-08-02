@@ -9,8 +9,8 @@
     <ul class="post-list">
         {{#each posts as |post|}}
         <li>
-            {{> post-info post}}
-            <a href="/dashb/edit/{{post.id}}" class="edit-link">Edit</a>
+            {{> postInfo post}}
+            <a href="/dash/edit/{{post.id}}" class="edit-link">Edit</a>
         </li>
         {{/each}}
     </ul>

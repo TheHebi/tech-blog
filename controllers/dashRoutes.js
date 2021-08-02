@@ -3,10 +3,10 @@ const sequelize = require("../config/connection");
 const { Post, User, Comment } = require("../models");
 const auth = require("../utils/auth");
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   Post.findAll({
     where: {
-      user_id: req.session.user_id,
+      user_id: req.session.user.id,
     },
     attributes: ["id", "title", "content", "created_at"],
     include: [
@@ -39,7 +39,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/edit/:id", (req, res) => {
+router.get("/edit/:id", auth, (req, res) => {
   Post.findOne({
     where: {
       id: req.params.id,
@@ -83,7 +83,7 @@ router.get("/edit/:id", (req, res) => {
     });
 });
 
-router.get("/new", (req, res) => {
+router.get("/new", auth, (req, res) => {
   res.render("addPost", {
     loggedIn: true,
   });
