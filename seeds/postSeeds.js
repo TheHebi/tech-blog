@@ -25,6 +25,16 @@ const postData = [
     title: 'Hashing',
     content: "Hashing lets you encrypt sensitive information. Remember: If a website shows you your password when you go to reset it, your password isn't being hashed and is stored in plaintext.",
     user_id: 4,
+  },
+  {
+    title: 'Example',
+    content: "example for editing",
+    user_id: 1,
+  },
+  {
+    title: 'Example',
+    content: "example for deleting",
+    user_id: 1,
   }
 ]
 
