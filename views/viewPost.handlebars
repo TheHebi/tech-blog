@@ -1,6 +1,6 @@
 
 {{#if loggedIn}}
-<a href="/dash" class="go-back"> &larr; Profile</a>
+<a href="/dash"> &larr; Profile</a>
 <br>
 <br>
 {{/if}}
@@ -8,7 +8,7 @@
 {{> postInfo post}}
 
 {{#if loggedIn}}
-<form class="comment-form">
+<form class="commentForm">
     <div>
         <textarea name="comment-body"></textarea>
     </div>

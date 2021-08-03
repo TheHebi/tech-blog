@@ -4,4 +4,4 @@ async function createPostHandler(event) {
   location.assign("/dash/new");
 }
 
-document.querySelector("#create-new-post").addEventListener("click", createPostHandler);
+document.querySelector("#createNew").addEventListener("click", createPostHandler);

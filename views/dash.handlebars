@@ -1,16 +1,16 @@
-<section class="new-post-section">
-    <button type="submit" class="btn" id="create-new-post">Create New Post</button>
+<section>
+    <button type="submit" class="btn" id="createNew">Create New Post</button>
 </section>
 
 
 {{#if posts.length}}
 <section>
     <h2>Your Posts</h2>
-    <ul class="post-list">
+    <ul class="postList">
         {{#each posts as |post|}}
         <li>
             {{> postInfo post}}
-            <a href="/dash/edit/{{post.id}}" class="edit-link">Edit</a>
+            <a href="/dash/edit/{{post.id}}" class="editLink">Edit</a>
         </li>
         {{/each}}
     </ul>

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div class="body">
         <header>
             <h1>
                 <a href="/">Home</a>
@@ -17,14 +17,14 @@
             <nav>
                 {{#if loggedIn}}
                 <a href="/dash">Profile</a>
-                <button id="logout" class="btn-no-style logout">Logout</button>
+                <button id="logout" class="noStyle logout">Logout</button>
                 {{else}}
                 <a href="/login">Login</a>
                 {{/if}}
             </nav>
         </header>
-        <div class="site-row">
-            <div class="site-name">
+        <div>
+            <div>
                 <h1>Thoughts about Tech</h1>
             </div>
         </div>
