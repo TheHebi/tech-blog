@@ -17,7 +17,7 @@ async function signupFormHandler(event) {
     });
 
     if (response.ok) {
-      document.location.replace("/dash");
+      location.assign("/dash");
     } else {
       alert(response.statusText);
     }

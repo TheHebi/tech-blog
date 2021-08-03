@@ -17,7 +17,7 @@ async function loginHandler(event) {
     });
 
     if (response.ok) {
-      document.location.replace("/dash");
+      location.assign("/dash");
     } else {
       let result = await response.json();
       alert(result.message);

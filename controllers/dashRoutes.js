@@ -1,25 +1,25 @@
 const router = require("express").Router();
 const sequelize = require("../config/connection");
-const { Post, User, Comment } = require("../models");
+const db = require("../models");
 const auth = require("../utils/auth");
 
 router.get("/", auth, (req, res) => {
-  Post.findAll({
+  db.Post.findAll({
     where: {
       user_id: req.session.user.id,
     },
     attributes: ["id", "title", "content", "created_at"],
     include: [
       {
-        model: Comment,
+        model: db.Comment,
         attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
         include: {
-          model: User,
+          model: db.User,
           attributes: ["username"],
         },
       },
       {
-        model: User,
+        model: db.User,
         attributes: ["username"],
       },
     ],
@@ -40,22 +40,22 @@ router.get("/", auth, (req, res) => {
 });
 
 router.get("/edit/:id", auth, (req, res) => {
-  Post.findOne({
+  db.Post.findOne({
     where: {
       id: req.params.id,
     },
     attributes: ["id", "title", "content", "created_at"],
     include: [
       {
-        model: Comment,
+        model: db.Comment,
         attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
         include: {
-          model: User,
+          model: db.User,
           attributes: ["username"],
         },
       },
       {
-        model: User,
+        model: db.User,
         attributes: ["username"],
       },
     ],
